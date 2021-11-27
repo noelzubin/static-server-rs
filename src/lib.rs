@@ -115,7 +115,9 @@ const SERVER_ERR_HEADER: &str = "HTTP/1.1 400 ServerError\r\n\r\n";
 fn parse_request(req: String) -> (String, PathBuf) {
     let mut parts = req.split(' ');
     let method = parts.next().unwrap().to_string();
-    let path = parts.next().unwrap().trim();
+    let mut path = parts.next().unwrap().trim();
+    path = path.split('?').next().unwrap();
+    path = path.split('#').next().unwrap();
     let path = PathBuf::from(path);
     (method, path)
 }
